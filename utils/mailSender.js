@@ -13,7 +13,8 @@ const mailSender = async (email, title, body) => {
     });
 
     const info = await transporter.sendMail({
-      from: `"Social Connection" <${process.env.EMAIL_USER}>`,
+      from: "Social Connection",
+      to: email,
       subject: title,
       html: body,
     });

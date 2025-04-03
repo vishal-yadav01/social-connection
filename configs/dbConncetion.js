@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+require("dotenv").config();
 const max_retries = 5;
 let retryCount = 0;
 const retry_delay = 5000;
@@ -36,8 +36,10 @@ mongoose.connection.on("disconnected", () => {
 mongoose.connection.on("error", (err) => {
   console.error(`❌ MongoDB Error: ${err}`);
 });
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB connected successfully");
+});
 
-// Graceful shutdown
 process.on("SIGINT", async () => {
   console.log("🛑 Shutting down gracefully...");
   await mongoose.connection.close();

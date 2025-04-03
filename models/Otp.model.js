@@ -16,8 +16,8 @@ const otpSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (value) => /^\d{6}$/.test(value),
-      message: "OTP must be exactly 6 digits",
+      validator: (value) => /^\d{4}$/.test(value),
+      message: "OTP must be exactly 4 digits",
     },
   },
   createdAt: {
@@ -43,4 +43,5 @@ otpSchema.pre("save", async function (next) {
   }
 });
 
-module.exports = mongoose.model("Otp", otpSchema);
+const OTP = mongoose.model("Otp", otpSchema);
+module.exports = OTP;

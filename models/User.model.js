@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema(
         validator: (value) => validator.isStrongPassword(value),
         message: "Password is not strong enough",
       },
+      select: false,
     },
     age: {
       type: Number,
@@ -67,9 +68,17 @@ const userSchema = new mongoose.Schema(
     },
     refreshToken: {
       type: String,
+      select: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+userSchema.index({ firstName: 1, lastName: 1 });
+
+userSchema.methods.userData = function () {
+  return this;
+};
+
+const User = mongoose.model("User", userSchema);
+module.exports = User;

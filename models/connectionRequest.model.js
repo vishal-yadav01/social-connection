@@ -23,6 +23,9 @@ const connectionRequestSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+// *Yes! Using an index with { unique: true } on multiple fields ensures that the combination of both fields is unique.
+// !👉 Yes, you must use an index to enforce uniqueness on two or more fields.
+// !👉 Without an index, MongoDB has no way to enforce uniqueness across multiple fields. 🚀
 connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 }, { unique: true });
 
 connectionRequestSchema.pre("save", function (next) {
@@ -32,4 +35,8 @@ connectionRequestSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("ConnectionRequest", connectionRequestSchema);
+const ConnectionRequest = mongoose.model(
+  "ConnectionRequest",
+  connectionRequestSchema
+);
+module.exports = ConnectionRequest;
